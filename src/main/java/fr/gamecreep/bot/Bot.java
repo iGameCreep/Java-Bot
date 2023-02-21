@@ -1,14 +1,13 @@
 package fr.gamecreep.bot;
 
-import fr.gamecreep.bot.events.*;
+import fr.gamecreep.bot.commands.Commands;
+import fr.gamecreep.bot.events.InteractionEventListener;
+import fr.gamecreep.bot.events.MessageEventListener;
+import fr.gamecreep.bot.events.ReadyEventListener;
+import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-
-import io.github.cdimascio.dotenv.Dotenv;
-
-import javax.security.auth.login.LoginException;
-import java.util.Map;
 
 public class Bot {
     public static void main(String[] args) {
@@ -26,7 +25,7 @@ public class Bot {
                 // Build the bot
                 .build();
 
-        jda.upsertCommand("slashcommand", "Slash commande loadé en Java").setGuildOnly(true).queue();
-        jda.upsertCommand("gnou", "Incroyable blague 👀").setGuildOnly(true).queue();
+        jda.upsertCommand("slashcommand", Commands.slashcommand.getDescription()).setGuildOnly(true).queue();
+        jda.upsertCommand("gnou", Commands.gnou.getDescription()).setGuildOnly(true).queue();
     }
 }

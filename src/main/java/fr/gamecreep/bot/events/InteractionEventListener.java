@@ -1,5 +1,6 @@
 package fr.gamecreep.bot.events;
 
+import fr.gamecreep.bot.commands.Commands;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -9,10 +10,11 @@ public class InteractionEventListener extends ListenerAdapter {
         super.onSlashCommandInteraction(event);
 
         switch (event.getName()) {
-            case "gnou":
-                event.reply("Alors c'est l'histoire d'un gnou qui se balade dans la savane et qui croise un autre groupe de gnou.\n" +
-                        "L'autre groupe de gnou le voyant tout seul lui a donc demandé : \n" +
-                        "Eh viens avec gnou :water_buffalo:").setEphemeral(true).queue();
+            case "gnou" :
+                event.reply(Commands.gnou.getMessage()).setEphemeral(Commands.gnou.getEphemeral()).queue();
+                break;
+            case "slashcommand":
+                event.reply(Commands.slashcommand.getMessage()).setEphemeral(Commands.slashcommand.getEphemeral()).queue();
                 break;
         }
 
