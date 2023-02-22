@@ -22,7 +22,7 @@ public class InteractionEventListener extends ListenerAdapter {
                 Commands.gnou.run(event);
                 break;
             case "ip":
-                event.replyEmbeds(EmbedCommands.ip.getEmbed().build()).queue();
+                EmbedCommands.ip.run(event);
                 break;
             case "ping":
                 EmbedCommands.ping.run(event);

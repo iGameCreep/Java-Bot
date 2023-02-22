@@ -2,8 +2,13 @@ package fr.gamecreep.bot.commands;
 
 import fr.gamecreep.bot.commands.CommandCategories;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.emoji.CustomEmoji;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.entities.emoji.EmojiUnion;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.Command;
+import net.dv8tion.jda.api.interactions.components.*;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 
 import java.awt.Color;
 import java.time.Instant;
@@ -123,8 +128,19 @@ public enum EmbedCommands {
                 for (Map.Entry<String, String> cmd : commands.entrySet()) {
                     help.embed.addField(cmd.getKey(), cmd.getValue(), true);
                 }
+                break;
+            case "ip":
+                Button btn = Button.link(
+                        "https://pacifista.fr",
+                        "Accéder au site Web"
+                ).withEmoji(
+                        Emoji.fromCustom(":globe_web:", Long.parseLong("1078054633592852581"), false)
+                );
+                interaction.replyEmbeds(ip.embed.build()).addActionRow(btn).setEphemeral(ip.ephemeral).queue();
+                break;
         }
 
+        if (!(interaction.getName() == "ip")) return;
         interaction.replyEmbeds(embed.build()).setEphemeral(ephemeral).queue();
     }
 
