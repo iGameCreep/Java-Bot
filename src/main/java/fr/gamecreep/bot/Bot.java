@@ -8,6 +8,7 @@ import fr.gamecreep.bot.events.ReadyEventListener;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
 public class Bot {
@@ -34,5 +35,6 @@ public class Bot {
             jda.upsertCommand(command.getName(), command.getDescription()).setGuildOnly(true).queue();
         }
 
+        jda.getPresence().setActivity(Activity.watching("twitch.tv/funixgaming"));
     }
 }

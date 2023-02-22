@@ -1,19 +1,29 @@
 package fr.gamecreep.bot.commands;
 
+import fr.gamecreep.bot.commands.CommandCategories;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+
 public enum Commands {
 
-    gnou("gnou","Incroyable blague 👀", "Alors c'est l'histoire d'un gnou qui se balade dans la savane et qui croise un autre groupe de gnou." + "\nL'autre groupe de gnou le voyant tout seul lui a donc demandé : " + "\nEh viens avec gnou :water_buffalo:", true),
-    slashcommand("slashcommand","Slash Command", "This is a Slash Command !", false);
+    gnou(
+            "gnou",
+            "Incroyable blague 👀",
+            CommandCategories.BLAGUE.name(),
+            "Alors c'est l'histoire d'un gnou qui se balade dans la savane et qui croise un autre groupe de gnou." + "\nL'autre groupe de gnou le voyant tout seul lui a donc demandé : " + "\nEh viens avec gnou :water_buffalo:",
+            true
+    );
 
     private String name;
     private String message;
     private String description;
+    private String category;
     private boolean ephemeral;
 
-    Commands(String name, String description, String message, boolean ephemeral) {
+    Commands(String name, String description, String category, String message, boolean ephemeral) {
         this.name = name;
         this.message = message;
         this.description = description;
+        this.category = category;
         this.ephemeral = ephemeral;
     }
 
@@ -23,12 +33,17 @@ public enum Commands {
     public String getDescription() {
         return description;
     }
+    public String getCategory() { return category; }
     public String getMessage() {
         return message;
     }
 
     public boolean getEphemeral() {
         return ephemeral;
+    }
+
+    public void run(SlashCommandInteractionEvent interaction) {
+        interaction.reply(message).setEphemeral(ephemeral).queue();
     }
 
 }

@@ -11,6 +11,8 @@ public class MessageEventListener extends ListenerAdapter {
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
         super.onMessageReceived(event);
 
-        System.out.println(event.getMessage().getContentDisplay());
+        if (event.getAuthor().isBot()) return;
+
+        System.out.println(String.format("[ %s > %s ] >> %s : %s", event.getGuild().getName(), event.getChannel().getName(), event.getAuthor().getAsTag(), event.getMessage().getContentDisplay()));
     }
 }
