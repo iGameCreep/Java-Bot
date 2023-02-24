@@ -1,5 +1,8 @@
 package fr.gamecreep.bot.events;
 
+import fr.gamecreep.bot.commands.CommandList;
+import fr.gamecreep.bot.commands.Commands;
+import fr.gamecreep.bot.commands.EmbedCommands;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.entities.emoji.EmojiUnion;
@@ -22,8 +25,6 @@ public class MessageEventListener extends ListenerAdapter {
 
         System.out.println(String.format("[ %s > %s ] >> %s : %s", event.getGuild().getName(), event.getChannel().getName(), event.getAuthor().getAsTag(), event.getMessage().getContentDisplay()));
 
-        System.out.println(event.getMessage().getContentRaw().equals("!rolereact"));
-
         if (event.getMessage().getContentDisplay().equals("!rolereact") && event.getAuthor().getId().equals("696753471650660412")){
             EmbedBuilder embed = new EmbedBuilder()
                     .setColor(new Color(44,175,255))
@@ -40,5 +41,45 @@ public class MessageEventListener extends ListenerAdapter {
             event.getChannel().sendMessageEmbeds(embed.build()).addActionRow(twitchbtn, youtubebtn, tiktokbtn).queue();
             event.getMessage().delete().queue();
         }
+
+        if (event.getMessage().getContentRaw().startsWith("!")) {
+            String command = event.getMessage().getContentRaw().split(" ")[0].replace("!", "");
+
+            for (CommandList cmdl : CommandList.values()) {
+                if (cmdl.getName().equals(command)) {
+                    for (EmbedCommands cmd : EmbedCommands.values()) {
+                        if (cmd.getName().equals(command)) {
+                            cmd.run(event, command);
+                        }
+                    }
+                    for (Commands cmd : Commands.values()) {
+                        if (cmd.getName().equals(command)) {
+                            cmd.run(event);
+                        }
+                    }
+                } else {
+                    errcommand(event, command);
+                }
+
+            }
+            setCount(0);
+        }
+    }
+
+    private int Count = 0;
+
+    public void errcommand(MessageReceivedEvent event, String command) {
+        setCount((getCount() + 1));
+        if (getCount() == CommandList.values().length) { // Command is invalid
+            event.getChannel().sendMessage(String.format(":warning: La commande `%s` n'existe pas ! \n`!help` pour la liste des commandes.", command)).queue();
+        }
+    }
+
+    public int getCount() {
+        return Count;
+    }
+
+    public void setCount(int count) {
+        Count = count;
     }
 }

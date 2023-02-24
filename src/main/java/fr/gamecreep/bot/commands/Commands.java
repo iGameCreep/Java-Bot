@@ -2,6 +2,7 @@ package fr.gamecreep.bot.commands;
 
 import fr.gamecreep.bot.commands.CommandCategories;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public enum Commands {
 
@@ -44,6 +45,10 @@ public enum Commands {
 
     public void run(SlashCommandInteractionEvent interaction) {
         interaction.reply(message).setEphemeral(ephemeral).queue();
+    }
+
+    public void run(MessageReceivedEvent event) {
+        event.getChannel().sendMessage(message).queue();
     }
 
 }

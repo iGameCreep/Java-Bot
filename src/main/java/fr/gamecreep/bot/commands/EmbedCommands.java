@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.emoji.CustomEmoji;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.entities.emoji.EmojiUnion;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.components.*;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
@@ -143,5 +144,56 @@ public enum EmbedCommands {
         if (!(interaction.getName() == "ip")) return;
         interaction.replyEmbeds(embed.build()).setEphemeral(ephemeral).queue();
     }
+    public void run(MessageReceivedEvent event, String command) {
+
+        switch (command) {
+            case "me":
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.FRANCE);
+                me.embed.clearFields();
+                me.embed
+                        .setThumbnail(event.getMember().getUser().getAvatarUrl())
+                        .setAuthor(event.getMember().getUser().getAsTag(), null, event.getMember().getUser().getAvatarUrl())
+                        .addField("**Pseudo**", event.getMember().getUser().getAsTag(), false)
+                        .addField("**Date de création**", event.getMember().getUser().getTimeCreated().format(formatter), false);
+                break;
+            case "ping":
+                ping.embed.clearFields();
+                ping.embed
+                        .setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl())
+                        .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+                        .setDescription(String.format("La latence de l'API est de %s ms :satellite_orbital: !", event.getJDA().getGatewayPing(), false));
+                break;
+            case "help":
+                help.embed.clearFields();
+                help.embed
+                        .setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+                        .setAuthor(event.getJDA().getSelfUser().getAsTag(), null, event.getJDA().getSelfUser().getAvatarUrl())
+                        .setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
+
+                Map<String, String> commands = new HashMap<>();
+
+                for (CommandList cmd : CommandList.values()) {
+                    commands.put(cmd.getName(), cmd.getDescription());
+                }
+
+                for (Map.Entry<String, String> cmd : commands.entrySet()) {
+                    help.embed.addField(cmd.getKey(), cmd.getValue(), true);
+                }
+                break;
+            case "ip":
+                Button btn = Button.link(
+                        "https://pacifista.fr",
+                        "Accéder au site Web"
+                ).withEmoji(
+                        Emoji.fromCustom(":globe_web:", Long.parseLong("1078054633592852581"), false)
+                );
+                event.getChannel().sendMessageEmbeds(ip.embed.build()).addActionRow(btn).queue();
+                break;
+        }
+
+        if (command.equals("ip")) return;
+        event.getChannel().sendMessageEmbeds(embed.build()).queue();
+    }
+
 
 }
