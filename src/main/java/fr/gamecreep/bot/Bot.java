@@ -1,7 +1,6 @@
 package fr.gamecreep.bot;
 
-import fr.gamecreep.bot.commands.Commands;
-import fr.gamecreep.bot.commands.EmbedCommands;
+import fr.gamecreep.bot.commands.CommandIP;
 import fr.gamecreep.bot.events.InteractionEventListener;
 import fr.gamecreep.bot.events.MessageEventListener;
 import fr.gamecreep.bot.events.ReadyEventListener;
@@ -26,14 +25,6 @@ public class Bot {
                 .addEventListeners(new ReadyEventListener(), new MessageEventListener(), new InteractionEventListener())
                 // Build the bot
                 .build();
-
-        for (Commands command : Commands.values()) {
-            jda.upsertCommand(command.getName(), command.getDescription()).setGuildOnly(true).queue();
-        }
-
-        for (EmbedCommands command : EmbedCommands.values()) {
-            jda.upsertCommand(command.getName(), command.getDescription()).setGuildOnly(true).queue();
-        }
 
         jda.getPresence().setActivity(Activity.watching("twitch.tv/funixgaming"));
     }

@@ -3,7 +3,6 @@ package fr.gamecreep.bot.events;
 import fr.gamecreep.bot.commands.*;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.UserSnowflake;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -13,22 +12,9 @@ public class InteractionEventListener extends ListenerAdapter {
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         super.onSlashCommandInteraction(event);
 
-        switch (event.getName()) {
-            case "gnou" :
-                Commands.gnou.run(event);
-                break;
-            case "ip":
-                EmbedCommands.ip.run(event);
-                break;
-            case "ping":
-                EmbedCommands.ping.run(event);
-                break;
-            case "me":
-                EmbedCommands.me.run(event);
-                break;
-            case "help":
-                EmbedCommands.help.run(event);
-        }
+        /*
+            Le code viendra plus tard une fois la liste de commandes fonctionnelle
+         */
 
     }
 

@@ -1,17 +1,10 @@
 package fr.gamecreep.bot.events;
 
-import fr.gamecreep.bot.commands.CommandList;
-import fr.gamecreep.bot.commands.Commands;
-import fr.gamecreep.bot.commands.EmbedCommands;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
-import net.dv8tion.jda.api.entities.emoji.EmojiUnion;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
-import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle;
-import net.dv8tion.jda.api.utils.data.DataObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -45,23 +38,7 @@ public class MessageEventListener extends ListenerAdapter {
         if (event.getMessage().getContentRaw().startsWith("!")) {
             String command = event.getMessage().getContentRaw().split(" ")[0].replace("!", "");
 
-            for (CommandList cmdl : CommandList.values()) {
-                if (cmdl.getName().equals(command)) {
-                    for (EmbedCommands cmd : EmbedCommands.values()) {
-                        if (cmd.getName().equals(command)) {
-                            cmd.run(event, command);
-                        }
-                    }
-                    for (Commands cmd : Commands.values()) {
-                        if (cmd.getName().equals(command)) {
-                            cmd.run(event);
-                        }
-                    }
-                } else {
-                    errcommand(event, command);
-                }
 
-            }
             setCount(0);
         }
     }
@@ -70,9 +47,9 @@ public class MessageEventListener extends ListenerAdapter {
 
     public void errcommand(MessageReceivedEvent event, String command) {
         setCount((getCount() + 1));
-        if (getCount() == CommandList.values().length) { // Command is invalid
+        //if (getCount() == CommandList.values().length) { // Command is invalid
             event.getChannel().sendMessage(String.format(":warning: La commande `%s` n'existe pas ! \n`!help` pour la liste des commandes.", command)).queue();
-        }
+        //}
     }
 
     public int getCount() {
